@@ -1,0 +1,40 @@
+# Copyright 2023 The Kalray Authors. All Rights Reserved.
+#
+# Licensed under the MIT License;
+# you may not use this file except in compliance with the License.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name:      yolov5s-ti-lite
+framework: onnx
+onnx_model: ../onnx_model/yolov5s6_640_ti_lite.optimized.onnx
+
+quantize_fp32_to_fp16: true
+threshold_image_to_ddr: 10000000
+data_buffer_size: 3560000
+
+input_nodes_name:
+    - images
+input_nodes_shape:
+    - [640, 1, 640, 3]
+
+output_nodes_name:
+    - "370"
+    - "425"
+    - "480"
+    - "535"
+output_nodes_shape:
+    - [80, 1, 80, 255]
+    - [40, 1, 40, 255]
+    - [20, 1, 20, 255]
+    - [10, 1, 10, 255]
+
+extra_data:
+    input_preparator: input_preparator.py
+    output_preparator: output_preparator/
+    classes: classes.txt
+
